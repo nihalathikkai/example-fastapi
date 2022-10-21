@@ -69,6 +69,10 @@ alembic: (database migration tool)
 CORS (Cross ORigin Resource Sharing):
     middleware
 
+Heroku
+    https://devcenter.heroku.com/articles/getting-started-with-python
+    restart app:
+    heroku ps:restart
 
 course status:
     https://youtu.be/0sOvCWFmrtA?t=37833
