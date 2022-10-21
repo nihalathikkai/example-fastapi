@@ -1,0 +1,74 @@
+python -m venv venv
+    (Create virtual environment)
+
+venv\Scripts\activate.bat
+    (Activate Virtual Environment)
+
+uvicorn main:app
+    (Host the API on local machine)
+
+uvicorn main:app --reload
+    (Host the API on local machine, reload API if any changes detected)
+
+
+
+
+postgres password: superuser
+pgAdmin master password: pgAdmin
+
+
+install Python postgres connector
+    pip install psycopg2
+
+postgres docs
+    https://www.psycopg.org/docs/usage.html
+
+
+Pydantic model vs sqlalchemy model:
+    Pydantic makes sure the web request data and response data are of a specific structures.
+    Sqlalchemy model defines columns of our database table
+
+
+sqlalchemy:
+    pip install sqlalchemy
+
+
+JWT (JSON Web Token):
+    pip install "python-jose[cryptography]"
+
+    for password hashing:
+    pip install "passlib[bcrypt]"
+
+
+alembic: (database migration tool)
+    https://www.youtube.com/watch?v=0sOvCWFmrtA&t=37818s
+    
+    pip install alembic
+    # initialize alembic
+        alembic init <directory>
+            set target_metada in env.py file
+            set config.set_main_option("sqlalchemy.url", <value>) in env.py file
+
+    # create a revision file
+        alembic revision 
+            define upgrade and downgrade functions
+    
+    # Upgrade to a revision
+        alembic upgrade <revision_no>
+
+        alembic upgrade head # upgrades to the latest revision
+
+
+        alembic current
+
+
+    documentaion:> API details > DDL internals
+
+
+
+CORS (Cross ORigin Resource Sharing):
+    middleware
+
+
+course status:
+    https://youtu.be/0sOvCWFmrtA?t=37833
