@@ -68,11 +68,86 @@ alembic: (database migration tool)
 
 CORS (Cross ORigin Resource Sharing):
     middleware
+    
 
 Heroku
     https://devcenter.heroku.com/articles/getting-started-with-python
-    restart app:
+    
     heroku ps:restart
+    heroku logs -t
+    heroku apps:info <app name>
+    heroku run alembic upgrade head
 
+    # to make changes to application
+    git add --all
+    git commit -m "commit message"
+    git push heroku main
+
+    https://fastapi-sample-application.herokuapp.com/
+
+
+Ubuntu server:
+    Create an ubuntu server
+    ssh into it 
+        ssh user1@192.168.0.106
+    update packages
+        sudo apt update && sudo apt upgrade -y
+    check/install python
+        python3 --version
+        sudo apt install python
+    check/install pip3
+        pip3 --version
+        sudo apt-get install python3-pip
+    install virtualenv
+        sudo pip3 install virtualenv
+    install postgres
+        sudo apt install postgresql postgresql-contrib
+    setup to postgres user
+        sudo passwd postgres
+            <set postgres user password>
+        su - postgres
+            <enter postgres user password>
+        psql -U postgres
+        \password postgres
+            <set postgres user password>
+        \q
+        exit
+    Configure postgres
+        cd /etc/postgresql/14/main
+        sudo vi postgresql.conf
+            <change listen_addresses to your ip or '*' for all ip>
+        sudo vi pg_hba.conf
+            <change all login method to md5, ie for local, and host: ipv4, ipv6>
+            <change ipv4 and ipv6 to support all connections 0.0.0.0/0 and ::/0>
+    restart postgres
+        systemctl restart postgresql
+    create a user (best practice to not use root user all the time)
+        adduser <username>
+        (login as root to give root privilages to <username>)
+            (to unlock root user: sudo passwd root)
+        usermod -aG sudo <username>
+            (check root privilage with sudo apt upgrade command)
+
+    ssh as the new user
+        ssh <username>@<ip>
+    create a new folder
+        mkdir <foldername>
+    create an virtualenv
+        virtualenv venv
+            activate virtual environment
+                source venv/bin/activate
+            to get out of venv
+                deactivate
+    
+
+
+    
 course status:
-    https://youtu.be/0sOvCWFmrtA?t=37833
+    https://youtu.be/0sOvCWFmrtA?t=43553
+
+
+
+
+ubuntu server:
+    username: user1
+    password 1234
