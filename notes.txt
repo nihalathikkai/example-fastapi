@@ -138,13 +138,84 @@ Ubuntu server:
                 source venv/bin/activate
             to get out of venv
                 deactivate
-    
+    clreate an src folder
+        mkdir src
+    clone git repo to this folder 
+        git clone <repo https url> .
+    acivate venv
+    install python packages
+        pip install -r requirements.txt 
+            (solution to possible error:
+                deactivate venv
+                sudo apt-get install libpq-dev
+                sudo apt-get install libffi-dev )
+    set environment variables
+        export <ENV_VARIABLE> = <value>
+        printenv (to see all env variables)
+        unset <ENV_VARIABLE>  ( to remove env variable)
+        .. to set multiple env variables, add all variables to a file and execute:
+            set -o allexport; source <filename>; set +o allexport
+        to make the ev variables persist after reboot,
+        paste the above command at the end of .profile file 
+    Create an postgres database from pgAdmin
+    generate all the tables with alembic
+        alembic upgrade head
+    start the application
+        uvicorn --host 192.168.0.106  app.main:app
+
+    To make the application auto restart after VM reboot or crash, we are using process manager gunicorn
+        pip install gunicorn
+        pip install httptools
+        pip install uvloop
+
+            we can specify no. of workers with gunicorn
+        gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app --bind 192.168.0.106:8000
+        
+        create a gunicorn service
+        create a servicefile in etc/systemd/system  (fastapi.service)
+        start the service  
+            systemctl start fastapi
+        Enable autostart for this service
+            sudo systemctl enable fastapi
+
+    setup nginx
+        sudo apt install nginx
+        systemctl start nginx
+        cd /etc/nginx/sites-available
+        .. edit default file to redirect to gunicorn
+            "location / {
+                proxy_pass http://localhost:8000;
+                        proxy_http_version 1.1;
+                        proxy_set_header X-Real-IP $remote_addr;
+                        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                        proxy_set_header Upgrade $http_upgrade;
+                        proxy_set_header Connection 'upgrade';
+                        proxy_set_header Host $http_host;
+                        proxy_set_header X-NginX-Proxy true;
+                        proxy_redirect off;
+            }"
+        systemctl restart nginx
+
+    To serve https requests:
+        1. Create a Domain name
+        2. Configure DNS to direct to ypur VM
+        3. Use Certbot to get an ssl certificates setup for your system
+
+    Set firewall rules
+        sudo ufw allow http
+        sudo ufw allow https
+        sudo ufw allow ssh
+        sudo ufw allow 5432  (not recommended, to access postgres from outside)
+        sudo ufw enable
+
+        sudo ufw status
+
+        sudo ufw delete allow 5432  (to deleta a rule)
 
 
-    
+
 course status:
     https://youtu.be/0sOvCWFmrtA?t=43553
-
 
 
 
