@@ -34,9 +34,3 @@ app.include_router(vote.router)
 def root():
     print("root")
     return {"message": "Welcome to FastAPI !!!"}
-
-
-
-
-
-
