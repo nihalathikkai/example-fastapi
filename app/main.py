@@ -35,4 +35,4 @@ app.include_router(vote.router)
 def root():
     print("root")
     return {"message": "Welcome to FastAPI !!!",
-            "deployed from": "CI?CD pipeline"}
+            "deployed from": "CI/CD pipeline"}
