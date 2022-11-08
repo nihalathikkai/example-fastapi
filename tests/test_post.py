@@ -19,7 +19,6 @@ def test_unauthorized_user_get_all_posts(client: TestClient, test_posts):
     
     
 def test_get_one_post(authorized_client: TestClient, test_posts):
-    
     response = authorized_client.get(f'/posts/{test_posts[0].id}')
     post = schemas.PostResponse(**response.json())
     assert response.status_code == 200
