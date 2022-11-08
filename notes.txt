@@ -212,11 +212,79 @@ Ubuntu server:
 
         sudo ufw delete allow 5432  (to deleta a rule)
 
+    To push changes to prod:
+        push the files fron dev to github
+        pull the changes from github to prod
+        restart gunicorn service
+
+
+Deploy on Docker
+    create a Dockerfile
+    Build the Docker image
+        docker build -t <tag or name> <directory>
+        eg:  docker build -t fastapi .
+
+    create docker-compose.yml
+    create contaimer from compose file
+        docker compose up -d (pass --build tag to rebuilt image after changes)
+        docker ps -a
+        docker logs <container>
+        docker compose down  (to stop the containers)
+
+    create the tables
+        docker exec -it <container> bash
+        alembic upgrade head
+
+    docker compose -f <filename> up -d
+
+
+pytest
+    the python file has to be named in the following patters:
+        "*_test.py"  or  "test_*.py"
+    the function name should start with "test"
+
+    run the command 'pytest' to start testing
+    flages: -v : to increase verbosicy
+            -s : to include stdout (print statements)
+            -x : to stop at first failed test
+
+    @pytest.mark.parametrize()
+        to run a test function with multiple values for assertion
+
+    @pytest.fixture
+        to run a function before a test function
+
+    with pytest.raises(<Exception class>):
+        we can check if exceptions are properly raised
+
+    conftest.py
+        file accessible to all tests in that module
+
+
+CI/cd
+    CI:
+        . pull Source code
+        . Install dependencies
+        . run automated tests
+        . Build Images
+
+    CD:
+        . Grab Images/Code
+        . Update Production 
+
+    ci/cd tool:
+        . provides a runner: a VM to run a few specified commands
+        . Commands are usually provided using a yaml/json file or gui
+        . the pipeline gets triggered based on an event (git push or merge)
+
+    github actions:
+        create a yaml file in /.github/workflows
+        
+
 
 
 course status:
-    https://youtu.be/0sOvCWFmrtA?t=43553
-
+    https://youtu.be/0sOvCWFmrtA?t=54374
 
 
 ubuntu server:

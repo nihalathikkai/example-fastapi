@@ -28,6 +28,7 @@ def get_all_posts(db: Session = Depends(get_db), current_user: models.User = Dep
             .join(models.Vote, models.Post.id==models.Vote.post_id, isouter=True) \
             .filter(models.Post.title.contains(search)) \
             .group_by(models.Post.id) \
+            .order_by(models.Post.id) \
             .offset(skip).limit(limit) \
             .all()
     return post
